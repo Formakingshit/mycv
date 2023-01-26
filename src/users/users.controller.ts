@@ -4,6 +4,7 @@ import {
   Post,
   Get,
   Patch,
+  Delete,
   Param,
   Query,
 } from '@nestjs/common';
@@ -29,5 +30,10 @@ export class UsersController {
   @Get()
   findAllUsers(@Query('email') email: string) {
     return this.usersService.find(email);
+  }
+
+  @Delete('/:id')
+  removeUser(@Param('id') id: string) {
+    return this.usersService.remove(parseInt(id));
   }
 }
