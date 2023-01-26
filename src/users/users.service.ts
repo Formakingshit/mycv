@@ -29,10 +29,14 @@ export class UsersService {
     const updatedUser = { user, ...attrs };
 
     return this.repo.save(updatedUser);
-    // return this.repo.update({ id, email });
   }
 
-  remove(id: number) {
-    // return this.repo.remove(id);
+  async remove(id: number) {
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new Error('user not found');
+    }
+
+    return this.repo.remove(user);
   }
 }
