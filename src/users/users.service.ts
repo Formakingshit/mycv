@@ -26,7 +26,7 @@ export class UsersService {
     if (!user) {
       throw new Error('user not found');
     }
-    const updatedUser = { user, ...attrs };
+    const updatedUser = { ...user, ...attrs };
 
     return this.repo.save(updatedUser);
   }
