@@ -11,7 +11,8 @@ export class AuthService {
   constructor(private usersService: UsersService) {}
   async signup(email: string, password: string) {
     const users = await this.usersService.find(email);
-    if (!users.length) {
+
+    if (users.length) {
       throw new BadRequestException('email in use');
     }
 
@@ -20,6 +21,10 @@ export class AuthService {
     const hash = (await scrypt(password, salt, 32)) as Buffer;
 
     const result = `${salt}.${hash}`;
+
+    const user = await this.usersService.create(email, result);
+
+    return user;
   }
 
   signin() {}
