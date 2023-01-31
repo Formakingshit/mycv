@@ -27,8 +27,8 @@ export class UsersController {
     private authService: AuthService,
   ) {}
 
-  @Post('/signuot')
-  async signuot(@Session() session: any) {
+  @Post('/signout')
+  async signout(@Session() session: any) {
     session.userId = null;
   }
 
