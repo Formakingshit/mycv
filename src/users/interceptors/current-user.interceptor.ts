@@ -6,8 +6,6 @@ import {
 } from '@nestjs/common';
 import { UsersService } from '../users.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class CurrentUserInterceptor implements NestInterceptor {
@@ -20,11 +18,11 @@ export class CurrentUserInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest();
     const { userId } = request.session || {};
 
-    if (!userId) {
-      return handler.handle();
+    if (userId) {
+      const user = await this.usersService.findOne(userId);
+      request.currentUser = user;
     }
 
-    const user = await this.usersService.findOne(userId);
-    request.currentUser = user;
+    return handler.handle();
   }
 }
