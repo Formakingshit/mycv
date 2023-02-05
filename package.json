@@ -58,6 +58,7 @@
     "typescript": "^4.7.4"
   },
   "jest": {
+    "collectCoverage": false, 
     "moduleFileExtensions": [
       "js",
       "json",
