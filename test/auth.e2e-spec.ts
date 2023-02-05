@@ -27,8 +27,21 @@ describe('Authentication System', () => {
         expect(id).toBeDefined();
         expect(email).toEqual(sendEmail);
       });
-    // .get('/')
-    // .expect(200)
-    // .expect('Hello World!');
+  });
+
+  it('/auth/signin (POST)', async () => {
+    const sendEmail = 'test333333@test.com';
+    const res = await request(app.getHttpServer())
+      .post('/auth/signup')
+      .send({ email: sendEmail, password: 'password' })
+      .expect(201);
+
+    const cookie = res.get('Set-Cookie');
+    const { body } = await request(app.getHttpServer())
+      .get('/auth/whoami')
+      .set('Cookie', cookie)
+      .expect(200);
+
+    expect(body.email).toEqual(sendEmail);
   });
 });
