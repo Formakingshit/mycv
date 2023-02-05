@@ -1,11 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { setupApp } from './setup-app';
+const cookieSession = require('cookie-session');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  setupApp(app);
+  app.use(
+    cookieSession({
+      keys: ['asdfasdf'],
+    }),
+  );
 
   const config = new DocumentBuilder()
     .setTitle('MyCV')
