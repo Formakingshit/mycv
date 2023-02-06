@@ -5,9 +5,12 @@ import { AuthGuard } from '../guards/auth.guard';
 import { CurrentUser } from '../users/decorators/current-user.decorator';
 import { CreateReportDto } from './dtos/create-report.dto';
 import { ReportsService } from './reports.service';
+import { ReportDto } from './dtos/report.dto';
+import { Serialize } from '../interceptors/serialize.interceptor';
 
 @ApiTags('Reports')
 @Controller('reports')
+@Serialize(ReportDto)
 export class ReportsController {
   constructor(private reportsService: ReportsService) {}
 
