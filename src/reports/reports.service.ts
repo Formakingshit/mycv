@@ -3,11 +3,20 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
 import { CreateReportDto } from './dtos/create-report.dto';
+import { GetEstimateDto } from './dtos/get-estimate.dto';
 import { Report } from './report.entity';
 
 @Injectable()
 export class ReportsService {
   constructor(@InjectRepository(Report) private repo: Repository<Report>) {}
+
+  createEstimate(estimateDto: GetEstimateDto) {
+    return this.repo
+      .createQueryBuilder()
+      .select('*')
+      .where('make = :make', { make: estimateDto.make })
+      .getRawMany();
+  }
 
   create(reportDto: CreateReportDto, user: User) {
     const report = this.repo.create(reportDto);
